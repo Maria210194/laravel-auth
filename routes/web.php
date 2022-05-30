@@ -12,11 +12,30 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/', function () {
     return view('welcome');
 });
+*/
+
+
+//rotte per l'autenticazione gestite automaticamente da Laravel:
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('auth')
+->namespace('Admin')
+->name('admin.')
+->prefix('admin')
+->group(function (){
+Route::get('/', 'HomeController@index')
+->name('home');
+});
+
+
+
+//definisco le altre rotte diverse da admin:
+
+Route::get("{any?}", function (){
+    return view('guest.home');
+    })->where("any", ".*");
