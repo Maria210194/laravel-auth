@@ -39,15 +39,23 @@ class PostController extends Controller
         //
         $request->validate([
             'title'=>'required|max:250',
-            'content'=>'required'
+            'content'=>'required|min:5'
+            ],
+            [
+                'title.required'=>'Il titolo dev\'essere valorizzato',
+                'title.max'=>'Hai superato i 250 caratteri',
+                'content.min'=>':attribute deve avere almeno :min caratteri'
             ]);
-        $postData= $request->all();
-        $newpost= new Post();
-        $newPost->fill($postData);
 
-        $newPost->slug= Post::convertToSlug($newPost->title);
-        $newPost->save();
-        return redirect()->route('admin.posts.index');
+            $postData = $request->all();
+            $newPost = new Post();
+
+            $newPost->fill($postData);
+
+            $newPost->slug = Post::convertToSlug($newPost->title);
+
+            $newPost->save();
+            return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -56,11 +64,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
         //
         //$post=Post::find($id);
-        $post=Post::find($id);
+        if(!$post){
+            abort(404);
+        }
         return view('admin.posts.show', compact('post'));
     }
 
@@ -70,10 +80,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
         //
-        $post=Post::find($id);
+        if(!$post){
+            abort(404);
+        }
         return view('admin.posts.edit', compact('post'));
 
     }
@@ -111,8 +123,10 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+        if($post){
+            $post->delete();
+        }
         //$post = Post::findOrFail($id);
-        $post->delete();
         return redirect()->route('admin.posts.index');
     }
 }

@@ -13,13 +13,11 @@ class Post extends Model
 
 
     //funzione che prende un input stringa e ritorna uno slug unico:
-
     public static function convertToSlug($title){
         $slugPrefix = Str::slug($title);
 
         $slug= $slugPrefix;
         $postFound= Post::where('slug', $slug)->first();
-
         $counter=1;
         while($postFound){
             $slug= $slugPrefix . '_' . $counter;

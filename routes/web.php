@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 //rotte per l'autenticazione gestite automaticamente da Laravel:
 
-Auth::routes();
+Auth::routes(['register'=>false, 'reset'=>false, 'verify'=>false]);
 
 Route::middleware('auth')
 ->namespace('Admin')

@@ -12,10 +12,10 @@
 <table class="table border-top border-bottom">
     <thead>
         <tr>
-            <th>Id</th>
+            <th>ID</th>
             <th>Titolo</th>
             <th>Slug</th>
-            <th> + </th>
+            <th>Azioni</th>
         </tr>
     </thead>
     <tbody>
