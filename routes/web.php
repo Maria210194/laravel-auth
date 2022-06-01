@@ -27,15 +27,15 @@ Route::middleware('auth')
 ->namespace('Admin')
 ->name('admin.')
 ->prefix('admin')
-->group(function (){
-Route::get('/', 'HomeController@index')->name('index');
-Route::resource('/posts', 'PostController');
+->group(function(){
+    Route::get('/', 'HomeController@index')->name('index');
+    Route::resource('posts', 'PostController');
 });
 
 
 
 //definisco le altre rotte diverse da admin:
 
-Route::get("{any?}", function (){
+Route::get("{any?}", function(){
     return view('guest.home');
     })->where("any", ".*");

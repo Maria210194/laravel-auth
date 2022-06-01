@@ -1,35 +1,43 @@
 @extends('layouts.dashboard')
+
 @section('content')
-    <div>
-        <a class="btn btn-primary" href="{{ route('admin.posts.create') }}">New post</a>
+<div class="row justify-content-between">
+    <div class="col-auto">
+        <h1>Tutti i posts</h1>
     </div>
-    <div>
-        <table>
+    <div class="col-auto">
+        <a href="{{ route('admin.posts.create') }}" class="btn btn-primary">Crea nuovo post</a>
+    </div>
+</div>
+<table class="table border-top border-bottom">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titolo</th>
+            <th>Slug</th>
+            <th class="text/center">Azioni</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($posts as $post)
             <tr>
-                <th>Title</th>
-                <th>Slug Title</th>
-            </tr>
-            @foreach ($posts as $post)
-                <tr>
-                    <td>{{ $post->title }}</td>
-                    <td>{{ $post->slug }}</td>
-                    <td>
-                        <a href="{{ route('admin.posts.show', $post->id) }}">
-                            <i class="fas fa-search fa-2xl"></i>
-                        </a>
-                        <a href="{{ route('admin.posts.edit', $post->id) }}">
-                            <i class="fas fa-edit fa-2xl"></i>
-                        </a>
-                        <form action="{{ route('admin.posts.destroy', $post->id) }}" method="post">
-                            @csrf
+                <td>{{$post->id}}</td>
+                <td>{{$post->title}}</td>
+                <td>{{$post->slug}}</td>
+                <td>
+                    <a class="btn btn-info" href="{{ route("admin.posts.show", $post->id) }}">Dettaglio</a>
+                    <a class="btn btn-warning" href="{{ route("admin.posts.edit", $post->id) }}">Modifica</a>
+                    <form class="d-inline-block" action="{{route('admin.posts.destroy' ,  $post->id)}}" method="POST">
+                        @csrf
                             @method('DELETE')
-                            <button type='submit' onclick="return confirm('Sicur* di voler eliminare il post?')"
-                                type="submit" value="" class="btn btn-danger">
+
+                            <button class="btn btn-danger" onclick="return confirm('Are you sure you wanna delete the Post?');">
+                                Delete
                             </button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </table>
-    </div>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
 @endsection

@@ -26,11 +26,7 @@ class Post extends Model
             $counter++;
             $postFound= Post::where('slug', $slug)->first();
         }
-
         return $slug;
-
     }
-
-
 }
 

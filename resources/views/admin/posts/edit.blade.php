@@ -1,47 +1,47 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h1>Modifica post{{$post->id}}</h1>
-                    <a href="{{route('admin.posts.index')}}" class="btn btn-primary">
-                    </a>
-                </div>
-                <div>
-                    @if ($error->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li>{{$error}}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
-                </div>
-                <form action="{{route('admin.posts.update', ['post'=>$post->id])}}" method="post" >
-                    @csrf
-                    @method('PUT')
-                    <div>
-                        <label for="title">Titolo</label>
-                        <input type="text" name="title" id="title" placeholder="Scrivi un titolo"
-                            value="{{ old('title', $post->title) }}">
-                        @error('title')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="content">Contenuto</label>
-                        <textarea  name="content" id="content" rows="3">{{ old('content', $post->content) }}</textarea>
-                        @error('content')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <input class="btn btn-primary" type="submit">
-                </form>
-
-            </div>
-        </div>
+<div class="row justify-content-between">
+    <div class="col-auto">
+        <h1>Modifica post {{$post->id}}</h1>
     </div>
+    <div class="col-auto">
+        <a href="{{ route('admin.posts.index') }}" class="btn btn-primary">Tutti i post</a>
+    </div>
+</div>
+<div>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+</div>
+<form action="{{ route("admin.posts.update", $post)}}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method("PUT")
+    <div class="form-group">
+        <label for="title">Titolo</label>
+        <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" placeholder="Inserisci il titolo" value="{{ old("title", $post->title) }}">
+        @error("title")
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+    <div class="form-group">
+        <label for="content">Contenuto</label>
+
+        <textarea name="content" cols="30" rows="10" class="form-control @error('title') is-invalid @enderror" placeholder="Scrivi qui...">{{ old("content", $post->content) }}</textarea>
+
+        @error("content")
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Modifica post</button>
+    </div>
+</form>
+
 @endsection

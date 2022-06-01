@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 use App\Post;
 
 class PostController extends Controller
@@ -14,7 +14,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Post $post)
+    public function index()
     {
         //
         $posts= Post::all();
@@ -27,7 +27,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Post $post)
+    public function create()
     {
         //
         return view('admin.posts.create');
@@ -61,13 +61,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
         //
         //$post=Post::find($id);
-        if(!$id){
-            abort(404);
-        }
+        $post=Post::find($id);
         return view('admin.posts.show', compact('post'));
     }
 
@@ -77,12 +75,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
         //
-        if(!$post){
-            abort(404);
-        }
+        $post=Post::find($id);
         return view('admin.posts.edit', compact('post'));
 
     }
@@ -98,7 +94,7 @@ class PostController extends Controller
     {
         //
         $request->validate([
-            'title'=> 'required|max:255',
+            'title'=> 'required|max:250',
             'content'=> 'required'
         ]);
 
@@ -108,7 +104,7 @@ class PostController extends Controller
 
         $post->update();
 
-        return redirect()->route('admin.posts.index');
+        return redirect()->route('admin.posts.index', $post->id);
     }
 
     /**
@@ -120,7 +116,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
-        $post = Post::findOrFail($id);
+        //$post = Post::findOrFail($id);
         $post->delete();
         return redirect()->route('admin.posts.index');
     }
