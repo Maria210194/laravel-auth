@@ -12,27 +12,27 @@
 <table class="table border-top border-bottom">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>Id</th>
             <th>Titolo</th>
             <th>Slug</th>
-            <th class="text/center">Azioni</th>
+            <th> + </th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($posts as $post)
+        @foreach($posts as $post)
             <tr>
                 <td>{{$post->id}}</td>
                 <td>{{$post->title}}</td>
                 <td>{{$post->slug}}</td>
                 <td>
-                    <a class="btn btn-info" href="{{ route("admin.posts.show", $post->id) }}">Dettaglio</a>
-                    <a class="btn btn-warning" href="{{ route("admin.posts.edit", $post->id) }}">Modifica</a>
+                    <a class="btn btn-info" href="{{ route('admin.posts.show', $post->id) }}">Dettaglio</a>
+                    <a class="btn btn-warning" href="{{ route('admin.posts.edit', $post->id) }}">Modifica</a>
                     <form class="d-inline-block" action="{{route('admin.posts.destroy' ,  $post->id)}}" method="POST">
                         @csrf
                             @method('DELETE')
 
-                            <button class="btn btn-danger" onclick="return confirm('Are you sure you wanna delete the Post?');">
-                                Delete
+                            <button class="btn btn-danger" onclick="return confirm('Sicuro di eliminare il Post?');">
+                                Cancella il post
                             </button>
                     </form>
                 </td>
